@@ -8,7 +8,6 @@ const App: React.FC = () => {
     <div className="w-full min-h-screen">
       <Landing />
       <TestPage />
-
     </div>
   );
 };
