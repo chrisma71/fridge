@@ -2,7 +2,7 @@ import React from 'react';
 
 const Features: React.FC = () => {
   return (
-    <section className="relative bg-[#f8caca] min-h-screen w-full h-full overflow-hidden border-2"> {/* Ensure overflow-hidden */}
+    <section className="relative bg-[#f8caca] min-h-screen w-full h-full overflow-hidden"> {/* Ensure overflow-hidden */}
       <h2 className="text-center text-3xl font-semibold mb-16 mt-28 font-mali w-full">Features</h2>
       
       {/* Background Rounded Divs */}
