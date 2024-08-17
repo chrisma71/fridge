@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Close from '../../assets/Close.png'; // Ensure the correct path to your Close image
-import axios from 'axios';
 
 interface TextModalProps {
   onClose: () => void;
   userId: string; // Pass userId to identify the user
+  onAddMeal: (meal: { name: string; calories: number; protein: number }) => Promise<void>; // Pass function to handle meal addition
 }
 
-const TextModal: React.FC<TextModalProps> = ({ onClose, userId }) => {
+const TextModal: React.FC<TextModalProps> = ({ onClose, userId, onAddMeal }) => {
   const [name, setName] = useState('');
   const [calories, setCalories] = useState<number | ''>('');
   const [protein, setProtein] = useState<number | ''>('');
@@ -17,9 +17,9 @@ const TextModal: React.FC<TextModalProps> = ({ onClose, userId }) => {
       try {
         const meal = { name, calories: Number(calories), protein: Number(protein) };
         
-        // Send POST request to add the meal to the user's meals array
-        await axios.post(`http://localhost:5000/api/users/${userId}/meals`, meal);
-        
+        // Use the onAddMeal function passed from the parent component
+        await onAddMeal(meal);
+
         alert("Meal added successfully!");
         onClose(); // Close the modal after adding the meal
       } catch (error) {
