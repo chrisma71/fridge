@@ -2,13 +2,10 @@ import React from 'react';
 
 const Features: React.FC = () => {
   return (
-    <section className="relative bg-[#f8caca] min-h-screen w-full h-full overflow-hidden"> {/* Ensure overflow-hidden */}
+    <section className="relative bg-[#FFDAE0] min-h-screen w-full h-full overflow-hidden"> {/* Ensure overflow-hidden */}
       <h2 className="text-center text-3xl font-semibold mb-16 mt-28 font-mali w-full">Features</h2>
       
       {/* Background Rounded Divs */}
-      <div className="absolute top-0 left-0 w-48 h-48 bg-[#AF0318] rounded-full blur-[100px]"></div> {/* Adjusted position and size */}
-      <div className="absolute top-32 right-0 w-48 h-48 bg-[#AF0318] rounded-full blur-[100px]"></div> {/* Adjusted position and size */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-48 h-48 bg-[#AF0318] rounded-full blur-[100px]"></div> {/* Adjusted position and size */}
 
       <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-40 px-2 md:px-4 lg:px-6 place-items-center max-w-7xl mx-auto">
         <FeatureCard title="Nutritional Scan" blurb="Snap a photo of your meal to instantly see its nutritional content." />

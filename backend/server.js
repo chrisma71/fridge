@@ -24,7 +24,7 @@ const upload = multer({ storage: storage });
 
 app.post('/upload', upload.single('file'), async (req, res) => {
   try {
-    const genAI = new GoogleGenerativeAI("apikeyhere");
+    const genAI = new GoogleGenerativeAI("AIzaSyBlvBqLEPV3OtPTiXaNohUS2AXjsMhdPYs");
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const fileBuffer = req.file.buffer;

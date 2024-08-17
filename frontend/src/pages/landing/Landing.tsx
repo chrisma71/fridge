@@ -5,11 +5,11 @@ import Call from './components/call';
 
 const HomePage: React.FC = () => {
   return (
-    <>
+    <div className='w-screen'>
       <Home/>
       <Features/>
       <Call/>
-    </>
+    </div>
   );
 };
 
