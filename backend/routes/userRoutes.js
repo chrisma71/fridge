@@ -58,6 +58,8 @@ router.post('/users/:userId/create', async (req, res) => {
                 meals: [], 
             });
 
+            console.log("UserCreated")
+
             // Save the new user
             await user.save();
         }

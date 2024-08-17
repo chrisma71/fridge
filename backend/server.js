@@ -23,6 +23,9 @@ app.get('/api/user-id', (req, res) => {
 app.use('/api', uploadRoute);
 app.use('/api', userRoutes);
 
+app.use('/api/user-id', createUserId);  // Only apply for this route
+app.use('/api/users/:userId/create', createUserId); // Apply for user creation
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

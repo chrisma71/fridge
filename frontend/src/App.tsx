@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './pages/landing/Landing';
 import Goals from './pages/goals&info/goals';
 import NutritionTracker from './pages/nutrition/NutritionTracker';
+import Fridge from './pages/fridge/Fridge'; // Import the Fridge component
 import Cookies from 'js-cookie';
 
 const App: React.FC = () => {
@@ -40,7 +41,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/a/goals" element={<Goals />} />
           <Route path="/a/tracker" element={<NutritionTracker />} />
-          {/* Add other routes here if needed */}
+          <Route path="/a/fridge" element={<Fridge />} /> {/* Add the Fridge route */}
         </Routes>
       </div>
     </Router>

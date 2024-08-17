@@ -44,6 +44,7 @@ const Sidebar: React.FC = () => {
           {/* Fridge Option */}
           <div className="mt-4 flex items-center justify-center">
             <button
+              onClick={() => navigate('/a/fridge')} // Added routing for "My Fridge"
               className="flex w-full items-center space-x-2 p-2 rounded-md bg-gray-100 hover:bg-gray-300 border-2 border-transparent hover:border-transparent"
             >
               <img src={FridgeIcon} alt="My Fridge" className="w-6" />
