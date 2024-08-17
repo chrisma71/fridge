@@ -3,7 +3,7 @@ import AppleImage from '../assets/image 1.png'; // Update the path according to 
 
 const Call: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-full h-full bg-[#C1E1C1] font-mali">
+    <div className="flex flex-col items-center justify-center min-h-screen w-full h-full bg-[#9fbcc7] font-mali">
       <h2 className="text-center text-xl font-semibold mb-4">Reach your Goals with</h2>
       <h1 className="text-center text-[4rem] font-bold mb-8">FRIDGE</h1>
 
