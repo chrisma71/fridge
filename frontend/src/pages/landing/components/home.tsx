@@ -8,9 +8,9 @@ const Home: React.FC = () => {
         <h3 className="text-5xl mb-8">Begin your journey to a healthier life</h3>
         <h1 className="text-[6rem] mb-4">with FRIDGE</h1>
         <h2 className="text-3xl mb-8">What’s in your fridge today?</h2>
-        <div className="cursor-pointer border-2 border-[#EBA8A8] font-bold px-6 py-3 text-lg bg-[#EBA8A8] text-white rounded-2xl hover:bg-transparent hover:text-[#EBA8A8]">
-          Join Us
-        </div>
+        <div className="cursor-pointer border-2 border-[#EBA8A8] font-bold px-6 py-3 mb-16 text-2xl bg-[#EBA8A8] text-white rounded-2xl hover:bg-transparent hover:text-[#EBA8A8]">
+        Join Us 
+      </div>
       </main>
       <img 
         src={Vector} 
