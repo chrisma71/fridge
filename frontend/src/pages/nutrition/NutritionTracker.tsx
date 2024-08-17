@@ -37,7 +37,7 @@ const NutritionTracker: React.FC = () => {
   const proteinGoal = 100;
 
   return (
-    <div className="flex bg-gradient-to-tr from-[#F5776F] to-[#C1E1C1] min-h-screen w-screen font-mali">
+    <div className="flex bg-gradient-to-tr from-[#FE94FF] to-[#FFB794] min-h-screen w-screen font-mali">
       <Sidebar />
 
       <div className="flex-1 p-8 flex flex-row space-x-16 items-start h-screen overflow-hidden">
