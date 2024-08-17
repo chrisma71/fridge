@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './pages/landing/Landing';
 import Goals from './pages/goals&info/goals';
+import NutritionTracker from './pages/nutrition/NutritionTracker'; // Import the new page
 
 const App: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/a/goals" element={<Goals />} />
-          {/* Add other routes here if needed */}
+          <Route path="/a/tracker" element={<NutritionTracker />} /> {/* Add the new route */}
         </Routes>
       </div>
     </Router>
