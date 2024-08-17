@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from './components/sidebar'; // Adjust the path based on your structure
+import Sidebar from './components/sidebar';
 import axios from 'axios';
 
 const Goals: React.FC = () => {
@@ -9,14 +9,12 @@ const Goals: React.FC = () => {
   const [goals, setGoals] = useState('');
   const [calorieGoal, setCalorieGoal] = useState<number | ''>('');
   const [proteinGoal, setProteinGoal] = useState<number | ''>('');
-  const [preferences, setPreferences] = useState(''); // Add preferences state
+  const [preferences, setPreferences] = useState('');
 
   const handleChange = (setter: React.Dispatch<React.SetStateAction<number | ''>>, e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value) && value >= 0) {
-      setter(value);
-    } else {
-      setter('');
+    const value = e.target.value;
+    if (value === '' || /^[0-9]+$/.test(value)) {
+      setter(value === '' ? '' : parseInt(value, 10));
     }
   };
 
@@ -32,7 +30,7 @@ const Goals: React.FC = () => {
           goals,
           calorieGoal,
           proteinGoal,
-          preferences, // Include preferences in the POST request
+          preferences,
         });
         alert('Goals saved successfully!');
       } else {
@@ -77,12 +75,13 @@ const Goals: React.FC = () => {
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Age</label>
               <input
-                type="number"
+                type="text"
                 value={age}
                 onChange={(e) => handleChange(setAge, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
                 placeholder="Enter your age"
-                min="0"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
             </div>
 
@@ -90,13 +89,13 @@ const Goals: React.FC = () => {
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Weight (lbs)</label>
               <input
-                type="number"
+                type="text"
                 value={weight}
                 onChange={(e) => handleChange(setWeight, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
                 placeholder="Enter your weight"
-                min="0"
-                step="10"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
             </div>
 
@@ -116,13 +115,13 @@ const Goals: React.FC = () => {
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Daily Calorie Goal</label>
               <input
-                type="number"
+                type="text"
                 value={calorieGoal}
                 onChange={(e) => handleChange(setCalorieGoal, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
                 placeholder="Enter your daily calorie goal"
-                min="0"
-                step="100"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
             </div>
 
@@ -130,13 +129,13 @@ const Goals: React.FC = () => {
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Daily Protein Goal</label>
               <input
-                type="number"
+                type="text"
                 value={proteinGoal}
                 onChange={(e) => handleChange(setProteinGoal, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
                 placeholder="Enter your daily protein goal"
-                min="0"
-                step="10"
+                pattern="[0-9]*"
+                inputMode="numeric"
               />
             </div>
 

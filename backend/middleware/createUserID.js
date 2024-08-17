@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const createUserId = (req, res, next) => {
   let userId = req.cookies.userId;
+  console.log("UserID created" + userId)
 
   if (!userId) {
     userId = uuidv4();

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './pages/landing/Landing';
 import Goals from './pages/goals&info/goals';
+import NutritionTracker from './pages/nutrition/NutritionTracker';
 import Cookies from 'js-cookie';
 
 const App: React.FC = () => {
@@ -9,6 +10,7 @@ const App: React.FC = () => {
     const fetchUserId = async () => {
       let userId = Cookies.get('userId');
       if (!userId) {
+        // Fetch userId from the server
         const response = await fetch('http://localhost:5000/api/user-id', {
           method: 'GET',
         });
@@ -21,7 +23,7 @@ const App: React.FC = () => {
           method: 'POST',
         });
       } else {
-        // Ensure the user document exists if already have userId
+        // Ensure the user document exists if the userId is already present
         await fetch(`http://localhost:5000/api/users/${userId}/create`, {
           method: 'POST',
         });
@@ -37,6 +39,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/a/goals" element={<Goals />} />
+          <Route path="/a/tracker" element={<NutritionTracker />} />
           {/* Add other routes here if needed */}
         </Routes>
       </div>
