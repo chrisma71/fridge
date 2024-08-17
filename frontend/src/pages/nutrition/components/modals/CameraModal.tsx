@@ -41,7 +41,7 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddMeal })
     if (imageSrc) {
       const formData = new FormData();
       formData.append('file', dataURLtoFile(imageSrc, 'webcam.jpg'));
-      formData.append('prompt', 'Analyze the food in the image and return a JSON object with the keys "name", "calories", and "protein". do not add the units with the measurements ie if its 1 gram, just write 1');
+      formData.append('prompt', 'Analyze the food in the image and return a JSON object with the keys "name", "calories", and "protein". Do not add the units with the measurements i.e., if it’s 1 gram, just write 1. Also include ALL food in the image ie if theres a burger and fries include both of them in the title and in the calories and proteins (combined)');
       formData.append('userId', userId); // Include userId in the upload
 
       try {
