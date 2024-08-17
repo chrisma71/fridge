@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './pages/landing/Landing';
 import Goals from './pages/goals&info/goals';
+import Cookies from 'js-cookie';
 
 const App: React.FC = () => {
+  useEffect(() => {
+    const fetchUserId = async () => {
+      let userId = Cookies.get('userId');
+      if (!userId) {
+        const response = await fetch('http://localhost:5000/api/user-id', {
+          method: 'GET',
+        });
+        const data = await response.json();
+        userId = data.userId;
+        Cookies.set('userId', userId, { expires: 365 }); // Expires in 1 year
+
+        // Create the user document if it doesn't exist
+        await fetch(`http://localhost:5000/api/users/${userId}/create`, {
+          method: 'POST',
+        });
+      } else {
+        // Ensure the user document exists if already have userId
+        await fetch(`http://localhost:5000/api/users/${userId}/create`, {
+          method: 'POST',
+        });
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
   return (
     <Router>
       <div className="w-full min-h-screen">

@@ -3,6 +3,61 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
+router.post('/users/:userId/create', async (req, res) => {
+    try {
+        let user = await User.findOne({ userID: req.params.userId });
+
+        if (!user) {
+            // Create a new user with default values
+            user = new User({
+                userID: req.params.userId,
+                name: 'Default Name',
+                age: 0,
+                weight: 0,
+                goals: 'Default Goals',
+                calorieGoal: 0,
+                proteinGoal: 0,
+                preferences: 'Default Preferences',
+                createdAt: new Date()
+            });
+
+            // Save the new user
+            await user.save();
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// routes/userRoutes.js
+router.post('/users/:userId/goals', async (req, res) => {
+    try {
+        const user = await User.findOne({ userID: req.params.userId }); // Use userID field
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Update the user's details
+        user.name = req.body.name || user.name;
+        user.age = req.body.age || user.age;
+        user.weight = req.body.weight || user.weight;
+        user.preferences = req.body.preferences || user.preferences;
+        user.calorieGoal = req.body.calorieGoal || user.calorieGoal;
+        user.proteinGoal = req.body.proteinGoal || user.proteinGoal;
+        user.goals = req.body.goals || user.goals;
+
+        await user.save();
+        res.json(user);
+    } catch (error) {
+        console.error('Error saving goals:', error);
+        res.status(400).json({ error: error.message });
+    }
+});
+  
+
 router.post('/users', async (req, res) => {
   try {
     const newUser = new User(req.body);
