@@ -84,7 +84,13 @@ const NutritionTracker: React.FC = () => {
         </div>
       </div>
 
-      {isCameraModalOpen && <CameraModal onClose={closeCameraModal} />}
+      {isCameraModalOpen && userId && (
+        <CameraModal
+          onClose={closeCameraModal}
+          userId={userId}
+          onAddMeal={handleAddMeal}
+        />
+      )}
       {isUploadModalOpen && <UploadModal onClose={closeUploadModal} />}
       {isTextModalOpen && userId && (
         <TextModal onClose={closeTextModal} onAddMeal={handleAddMeal} userId={userId} />
