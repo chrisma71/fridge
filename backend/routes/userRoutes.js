@@ -3,6 +3,42 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
+router.get('/users/:userId/meals', async (req, res) => {
+    try {
+      const user = await User.findOne({ userID: req.params.userId });
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.json({ meals: user.meals });
+    } catch (error) {
+      console.error('Error fetching meals:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+router.post('/users/:userId/meals', async (req, res) => {
+    try {
+        const user = await User.findOne({ userID: req.params.userId });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Add the meal to the user's meals array
+        user.meals.push({
+            name: req.body.name,
+            calories: req.body.calories,
+            protein: req.body.protein
+        });
+
+        // Save the user document
+        await user.save();
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error adding meal:', error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
 router.post('/users/:userId/create', async (req, res) => {
     try {
         let user = await User.findOne({ userID: req.params.userId });
@@ -18,7 +54,8 @@ router.post('/users/:userId/create', async (req, res) => {
                 calorieGoal: 0,
                 proteinGoal: 0,
                 preferences: 'Default Preferences',
-                createdAt: new Date()
+                createdAt: new Date(),
+                meals: [], 
             });
 
             // Save the new user
