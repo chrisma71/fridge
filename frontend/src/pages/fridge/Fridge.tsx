@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../goals&info/components/sidebar';
 import CameraModal from './components/CameraModal';
 import UploadModal from './components/UploadModal';
@@ -6,121 +6,32 @@ import TextModal from './components/TextModal';
 import CameraIcon from './assets/Group 22.png';
 import UploadIcon from './assets/Upload.png';
 import AddIcon from './assets/Vector.png';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const Fridge: React.FC = () => {
   const [isCameraModalOpen, setCameraModalOpen] = useState(false);
   const [isUploadModalOpen, setUploadModalOpen] = useState(false);
   const [isTextModalOpen, setTextModalOpen] = useState(false);
+  const [fridgeItems, setFridgeItems] = useState<string[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const [fridgeItems, setFridgeItems] = useState<string[]>([
-    'Cabbage',
-    'Carrots',
-    'Tomatoes',
-    'Lettuce',
-    'Spinach',
-    'Broccoli',
-    'Cauliflower',
-    'Bell Peppers',
-    'Onions',
-    'Garlic',
-    'Ginger',
-    'Mushrooms',
-    'Zucchini',
-    'Cucumbers',
-    'Potatoes',
-    'Sweet Potatoes',
-    'Beets',
-    'Radishes',
-    'Eggplant',
-    'Asparagus',
-    'Green Beans',
-    'Peas',
-    'Corn',
-    'Avocados',
-    'Bananas',
-    'Apples',
-    'Oranges',
-    'Strawberries',
-    'Blueberries',
-    'Raspberries',
-    'Blackberries',
-    'Cherries',
-    'Grapes',
-    'Watermelon',
-    'Pineapple',
-    'Mangoes',
-    'Papayas',
-    'Kiwis',
-    'Lemons',
-    'Limes',
-    'Peaches',
-    'Plums',
-    'Nectarines',
-    'Pears',
-    'Grapefruit',
-    'Pomegranate',
-    'Coconut',
-    'Milk',
-    'Cheese',
-    'Yogurt',
-    'Butter',
-    'Eggs',
-    'Chicken',
-    'Beef',
-    'Pork',
-    'Fish',
-    'Shrimp',
-    'Tofu',
-    'Tempeh',
-    'Lentils',
-    'Chickpeas',
-    'Kidney Beans',
-    'Black Beans',
-    'Peanuts',
-    'Almonds',
-    'Cashews',
-    'Walnuts',
-    'Hazelnuts',
-    'Pecans',
-    'Sunflower Seeds',
-    'Pumpkin Seeds',
-    'Oats',
-    'Rice',
-    'Pasta',
-    'Quinoa',
-    'Barley',
-    'Bread',
-    'Tortillas',
-    'Bagels',
-    'Croissants',
-    'Cereal',
-    'Granola',
-    'Olive Oil',
-    'Coconut Oil',
-    'Vinegar',
-    'Soy Sauce',
-    'Honey',
-    'Maple Syrup',
-    'Peanut Butter',
-    'Jam',
-    'Pickles',
-    'Mustard',
-    'Ketchup',
-    'Mayonnaise',
-    'Hot Sauce',
-    'Salt',
-    'Pepper',
-    'Sugar',
-    'Flour',
-    'Baking Soda',
-    'Baking Powder',
-    'Cinnamon',
-    'Nutmeg',
-    'Ginger',
-    'Vanilla Extract',
-    'Chocolate Chips',
-    'Cocoa Powder',
-  ]);
+  useEffect(() => {
+    const id = Cookies.get('userId');
+    if (id) {
+      setUserId(id);
+      fetchFridgeItems(id); // Fetch fridge items when userId is available
+    }
+  }, []);
+
+  const fetchFridgeItems = async (userId: string) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/users/${userId}/fridge`);
+      setFridgeItems(response.data.fridge || []);
+    } catch (error) {
+      console.error('Error fetching fridge items:', error);
+    }
+  };
 
   const openCameraModal = () => setCameraModalOpen(true);
   const closeCameraModal = () => setCameraModalOpen(false);
@@ -131,12 +42,24 @@ const Fridge: React.FC = () => {
   const openTextModal = () => setTextModalOpen(true);
   const closeTextModal = () => setTextModalOpen(false);
 
-  const handleAddItem = (item: string) => {
-    setFridgeItems([...fridgeItems, item]);
+  const handleAddItem = async (item: string) => {
+    try {
+      await axios.post(`http://localhost:5000/api/users/${userId}/fridge`, { item });
+      await fetchFridgeItems(userId as string);
+    } catch (error) {
+      console.error('Error adding item to fridge:', error);
+      alert('Failed to add item.');
+    }
   };
 
-  const handleRemoveItem = (itemToRemove: string) => {
-    setFridgeItems(fridgeItems.filter(item => item !== itemToRemove));
+  const handleRemoveItem = async (itemToRemove: string) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/users/${userId}/fridge/${itemToRemove}`);
+      setFridgeItems(fridgeItems.filter(item => item !== itemToRemove));
+    } catch (error) {
+      console.error('Error removing item from fridge:', error);
+      alert('Failed to remove item.');
+    }
   };
 
   return (
@@ -169,9 +92,27 @@ const Fridge: React.FC = () => {
         </div>
       </div>
 
-      {isCameraModalOpen && <CameraModal onClose={closeCameraModal} />}
-      {isUploadModalOpen && <UploadModal onClose={closeUploadModal} />}
-      {isTextModalOpen && <TextModal onClose={closeTextModal} onAddMeal={handleAddItem} />}
+      {isCameraModalOpen && userId && (
+        <CameraModal 
+          onClose={closeCameraModal} 
+          userId={userId} 
+          onAddItem={handleAddItem} 
+        />
+      )}
+      {isUploadModalOpen && userId && (
+        <UploadModal 
+          onClose={closeUploadModal} 
+          userId={userId} 
+          onAddItem={handleAddItem} 
+        />
+      )}
+      {isTextModalOpen && userId && (
+        <TextModal 
+          onClose={closeTextModal} 
+          onAddItem={handleAddItem} 
+          userId={userId} 
+        />
+      )}
     </div>
   );
 };

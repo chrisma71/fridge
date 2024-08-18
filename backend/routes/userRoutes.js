@@ -56,6 +56,7 @@ router.post('/users/:userId/create', async (req, res) => {
                 preferences: 'Default Preferences',
                 createdAt: new Date(),
                 meals: [], 
+                fridge: [], 
             });
 
             console.log("UserCreated")
@@ -143,30 +144,45 @@ router.delete('/users/:id', async (req, res) => {
   }
 });
 
-router.post('/users/:id/fridge', async (req, res) => {
+router.post('/users/:userId/fridge', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ userID: req.params.userId }); // Use userID field
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
     user.fridge.push(req.body.item);
     await user.save();
-    res.json(user);
+    res.json(user.fridge);
   } catch (error) {
+    console.error('Error adding item to fridge:', error);
     res.status(400).json({ error: error.message });
   }
 });
 
-router.delete('/users/:id/fridge/:item', async (req, res) => {
+router.get('/users/:userId/fridge', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ userID: req.params.userId }); // Use userID field
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ fridge: user.fridge });
+  } catch (error) {
+    console.error('Error fetching fridge items:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.delete('/users/:userId/fridge/:item', async (req, res) => {
+  try {
+    const user = await User.findOne({ userID: req.params.userId }); // Use userID field
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
     user.fridge = user.fridge.filter(item => item !== req.params.item);
     await user.save();
-    res.json(user);
+    res.json(user.fridge);
   } catch (error) {
+    console.error('Error removing item from fridge:', error);
     res.status(400).json({ error: error.message });
   }
 });
