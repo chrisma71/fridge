@@ -11,7 +11,7 @@ const Home: React.FC = () => {
       <main className="flex items-center justify-between flex-grow font-mali text-black pl-36 pr-36">
         <div className="flex flex-col">
           <h3 className="text-5xl mb-8">Transform Your Health Journey</h3>
-          <h1 className="text-[6rem] mb-4">with FRIDGE</h1>
+          <h1 className="text-[6rem] mb-4">with myFridge</h1>
           <h2 className="text-3xl mb-8">Discover What’s in Your Fridge Today</h2>
           <div
             className="cursor-pointer border-2 border-[#EBA8A8] w-[10rem] text-center font-bold px-6 py-3 mb-16 text-2xl shadow-[0_6px_3px_rgba(0,0,0,0.3)] bg-[#EBA8A8] text-white rounded-2xl transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105"

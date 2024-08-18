@@ -23,9 +23,9 @@ const Call: React.FC = () => {
           className="w-80 h-auto transform transition-transform duration-300 hover:-translate-y-2 hover:scale-105"
         />
         <div className="text-right">
-          <h2 className="text-4xl font-bold mb-4">Transform Your Health Journey with Fridge!</h2>
+          <h2 className="text-4xl font-bold mb-4">Transform Your Health Journey with myFridge!</h2>
           <p className="text-xl">
-            Welcome to Fridge, the ultimate app designed to make healthy eating easy, personalized, and fun. 
+            Welcome to myFridge, the ultimate app designed to make healthy eating easy, personalized, and fun. 
             Our innovative features empower you to take control of your diet and health goals, all from the comfort of your kitchen.
           </p>
         </div>
@@ -36,8 +36,8 @@ const Call: React.FC = () => {
         <div className="text-left">
           <h2 className="text-4xl font-bold mb-4">Discover What’s in Your Fridge Today</h2>
           <p className="text-xl">
-            Fridge isn't just another food app—it’s your personal nutrition assistant. 
-            With Fridge, you can effortlessly manage your food, plan meals, and achieve your health goals. 
+            myFridge isn't just another food app—it’s your personal nutrition assistant. 
+            With myFridge, you can effortlessly manage your food, plan meals, and achieve your health goals. 
             Here’s what makes us stand out:
           </p>
         </div>
