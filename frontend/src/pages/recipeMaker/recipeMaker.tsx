@@ -70,7 +70,7 @@ const RecipeMaker: React.FC = () => {
           "protein": 30
         }
         
-        Ensure that ingredients are separated by semicolons and steps are separated by semicolons. Do not number the steps. Include estimated calories and protein. Finally, for the ingredients, make sure you show how much it is for each.
+        Ensure that ingredients are separated by semicolons and steps are separated by semicolons. Make sure there are multiple steps, and separate with semicolen.  Do not number the steps. Include estimated calories and protein. Finally, for the ingredients, make sure you show how much it is for each.
       `;
 
       const response = await axios.post('http://localhost:5000/api/upload', { prompt });

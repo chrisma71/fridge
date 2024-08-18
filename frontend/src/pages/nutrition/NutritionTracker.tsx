@@ -15,14 +15,30 @@ const NutritionTracker: React.FC = () => {
   const [isUploadModalOpen, setUploadModalOpen] = useState(false);
   const [isTextModalOpen, setTextModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [calorieGoal, setCalorieGoal] = useState<number>(2000); // Default value
+  const [proteinGoal, setProteinGoal] = useState<number>(100); // Default value
 
   useEffect(() => {
     const id = Cookies.get('userId');
     if (id) {
       setUserId(id);
+      fetchUserData(id); // Fetch user data when userId is available
       fetchMeals(id); // Fetch meals when userId is available
     }
   }, []);
+
+  const fetchUserData = async (userId: string) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      const userData = response.data;
+
+      // Set goals from user data
+      setCalorieGoal(userData.calorieGoal || 2000);
+      setProteinGoal(userData.proteinGoal || 100);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   const fetchMeals = async (userId: string) => {
     try {
@@ -57,9 +73,6 @@ const NutritionTracker: React.FC = () => {
 
   const totalCalories = meals.reduce((acc, meal) => acc + meal.calories, 0);
   const totalProtein = meals.reduce((acc, meal) => acc + meal.protein, 0);
-
-  const calorieGoal = 2000;
-  const proteinGoal = 100;
 
   return (
     <div className="flex bg-gradient-to-tr from-[#FE94FF] to-[#FFB794] min-h-screen w-screen font-mali">

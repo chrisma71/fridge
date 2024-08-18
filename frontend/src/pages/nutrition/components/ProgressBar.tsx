@@ -24,11 +24,11 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ calorieGoal, calorieIntake, p
             styles={buildStyles({
               pathColor: '#00A36C',
               textColor: '#333',
-              textSize: '16px', // Smaller font size for the text inside the circle
+              textSize: '14px', // Reduced font size for the text inside the circle
               trailColor: '#D9D9D9',
               backgroundColor: '#fff',
             })}
-            className="font-malti" // Apply the Malti font to the text
+            className="font-malti"
           />
           <p className="mt-4 text-lg font-semibold font-malti">Calories</p>
         </div>
@@ -39,11 +39,11 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ calorieGoal, calorieIntake, p
             styles={buildStyles({
               pathColor: '#00A36C',
               textColor: '#333',
-              textSize: '16px', // Smaller font size for the text inside the circle
+              textSize: '14px', // Reduced font size for the text inside the circle
               trailColor: '#D9D9D9',
               backgroundColor: '#fff',
             })}
-            className="font-malti" // Apply the Malti font to the text
+            className="font-malti"
           />
           <p className="mt-4 text-lg font-semibold font-malti">Protein</p>
         </div>
