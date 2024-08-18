@@ -46,31 +46,34 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
   const handleUpload = async () => {
     if (imageSrc && !isSubmitting) {
       try {
-        setIsSubmitting(true); 
+        setIsSubmitting(true);
         const formData = new FormData();
         formData.append('file', dataURLtoFile(imageSrc, 'webcam.jpg'));
-        formData.append('prompt', 'Analyze the food in the image and return a JSON object with the name of the item. If there are multiple food items include all of them in a single name. I.e Burger, fries');
-        formData.append('userId', userId);
-  
+        formData.append('prompt', 'Analyze the food in the image and return a JSON array with the names of the items. Each item should be a separate entry.');
+
         const response = await axios.post('http://localhost:5000/api/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-  
+
+        // Extract and parse JSON response
         let description = response.data.description;
         console.log(description);
         description = description.replace(/```json|```/g, '').trim();
         const parsedResponse = JSON.parse(description);
-  
-        const itemName = parsedResponse.name || 'Unknown Item';
-  
-        await onAddItem(itemName);
-  
-        onClose(); 
+
+        // Expecting an array of items
+        const items = Array.isArray(parsedResponse) ? parsedResponse : [];
+
+        for (const itemName of items) {
+          await onAddItem(itemName);
+        }
+
+        onClose();
       } catch (error) {
         console.error('Error uploading file:', error);
-        alert('Failed to add item.');
+        alert('Failed to add items.');
       } finally {
         setIsSubmitting(false);
       }

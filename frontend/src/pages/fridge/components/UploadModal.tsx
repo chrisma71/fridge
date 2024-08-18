@@ -3,8 +3,8 @@ import axios from 'axios';
 
 interface UploadModalProps {
   onClose: () => void;
-  userId: string; // User ID to associate the upload with a user
-  onAddItem: (item: string) => void; // Function to add the item to the fridge
+  userId: string;
+  onAddItem: (item: string) => void;
 }
 
 const UploadModal: React.FC<UploadModalProps> = ({ onClose, userId, onAddItem }) => {
@@ -24,7 +24,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ onClose, userId, onAddItem })
 
         const formData = new FormData();
         formData.append('file', selectedFile);
-        formData.append('prompt', 'Analyze the food in the image and return a JSON object with the name of the item. If there are multiple food items include all of them in a single name. I.e Burger, fries');
+        formData.append('prompt', 'Analyze the food in the image and return a JSON array with the names of the items. Each item should be a separate entry.');
         formData.append('userId', userId);
 
         const response = await axios.post('http://localhost:5000/api/upload', formData, {
@@ -34,17 +34,22 @@ const UploadModal: React.FC<UploadModalProps> = ({ onClose, userId, onAddItem })
         });
 
         let description = response.data.description;
-        console.log(description)
         description = description.replace(/```json|```/g, '').trim();
         const parsedResponse = JSON.parse(description);
 
-        const itemName = parsedResponse.name || 'Unknown Item';
+        if (Array.isArray(parsedResponse)) {
+          for (const itemName of parsedResponse) {
+            await onAddItem(itemName);
+          }
+        } else {
+          console.error('Response is not an array:', parsedResponse);
+          alert('Unexpected response format.');
+        }
 
-        await onAddItem(itemName);
         onClose();
       } catch (error) {
         console.error('Error uploading file:', error);
-        alert('Failed to add item.');
+        alert('Failed to add items.');
       } finally {
         setIsSubmitting(false);
       }
