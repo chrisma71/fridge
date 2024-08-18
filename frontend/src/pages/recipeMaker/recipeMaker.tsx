@@ -3,8 +3,10 @@ import Sidebar from '../goals&info/components/sidebar';
 import Search from './assets/Vector.png';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';  // Importing uuid
 
 interface Recipe {
+  recipeId: string;
   title: string;
   ingredients: string[];
   steps: string[];
@@ -17,6 +19,7 @@ const RecipeMaker: React.FC = () => {
   const [fridgeItems, setFridgeItems] = useState<string[]>([]);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [recipeUUID, setRecipeUUID] = useState<string>('');
 
   useEffect(() => {
     const userId = Cookies.get('userId');
@@ -56,12 +59,12 @@ const RecipeMaker: React.FC = () => {
         - Preferences: ${preferences.preferences}
         - Fridge Items: ${fridge.join(', ')}
         - Search Query: ${query}
-        
+
         The recipe should be designed for an intermediate cooking level.
         Only use the items listed in the fridge. Do not add any other ingredients even if it is to match other user preferences.
         Make sure to keep into account the preferences of the user - ie if the user cannot eat specific foods like vegan or halal, don't make a recipe with those ingredients. In this case, the user has these preferences: ${preferences.preferences}. If it's halal they can't eat pork, if vegan, no meats etc.
         Provide the recipe in the following format:
-        
+
         {
           "title": "Recipe Title",
           "ingredients": "Ingredient 1; Ingredient 2; Ingredient 3",
@@ -69,51 +72,73 @@ const RecipeMaker: React.FC = () => {
           "calories": 500,
           "protein": 30
         }
-        
+
         Ensure that ingredients are separated by semicolons and steps are separated by semicolons. Make sure there are multiple steps, and separate with semicolen.  Do not number the steps. Include estimated calories and protein. Finally, for the ingredients, make sure you show how much it is for each.
       `;
 
       const response = await axios.post('http://localhost:5000/api/upload', { prompt });
       const rawRecipeData = response.data.description;
-      
-      console.log('Raw response data:', rawRecipeData);
-      
+
       const jsonString = rawRecipeData
         .replace(/```json\n|\n```/g, '')
         .trim();
-      
+
       const recipeData = JSON.parse(jsonString);
-      
-      console.log('Parsed recipe data:', recipeData);
-      
+
       const title = recipeData.title || 'Generated Recipe Title';
       const ingredientsText = recipeData.ingredients || '';
       const stepsText = recipeData.steps || '';
       const calories = recipeData.calories || 0;
       const protein = recipeData.protein || 0;
 
-      console.log(calories);
-      console.log(protein);
-
       const ingredients: string[] = ingredientsText
         .split(';')
         .map((ingredient: string) => ingredient.trim())
         .filter((ingredient: string) => ingredient.length > 0);
-      
+
       const steps: string[] = stepsText
         .split(';')
         .map((step: string) => step.trim())
         .filter((step: string) => step.length > 0);
-      
-      setRecipe({
+
+      const generatedRecipe = {
+        recipeId: uuidv4(),  // Generate a unique ID for the recipe
         title,
         ingredients,
         steps,
         calories,
         protein
-      });
+      };
+
+      setRecipe(generatedRecipe);
+
+      // Call function to store the generated recipe in the database
+      await storeRecipe(generatedRecipe);
+
     } catch (error) {
       console.error('Error generating recipe:', error);
+    }
+  };
+
+  // Function to store the generated recipe in the database
+  const storeRecipe = async (recipe: Recipe) => {
+    try {
+      await axios.post('http://localhost:5000/api/recipes', recipe);
+      console.log('Recipe stored successfully:', recipe);
+    } catch (error) {
+      console.error('Error storing recipe:', error);
+      alert('Failed to store recipe.');
+    }
+  };
+
+  // Function to import a recipe by its UUID
+  const fetchRecipeById = async (recipeId: string) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/recipes/${recipeId}`);
+      setRecipe(response.data);
+    } catch (error) {
+      console.error('Error fetching recipe:', error);
+      alert('Failed to fetch recipe. Please check the UUID.');
     }
   };
 
@@ -125,15 +150,26 @@ const RecipeMaker: React.FC = () => {
     }
   };
 
+  const handleImportRecipe = () => {
+    if (recipeUUID) {
+      fetchRecipeById(recipeUUID);
+    } else {
+      alert('Please enter a recipe UUID to import.');
+    }
+  };
+
   const handleAddToTracker = async () => {
     const userId = Cookies.get('userId');
     if (userId && recipe) {
       try {
+        // Optional: Add recipe metadata to the user's nutrition tracker
         await axios.post(`http://localhost:5000/api/users/${userId}/meals`, {
           name: recipe.title,
           calories: recipe.calories,
           protein: recipe.protein
         });
+
+        alert('Recipe added to Nutrition Tracker successfully.');
       } catch (error) {
         console.error('Error adding recipe to tracker:', error);
         alert('Failed to add recipe to Nutrition Tracker.');
@@ -144,7 +180,7 @@ const RecipeMaker: React.FC = () => {
   };
 
   return (
-    <div className="flex bg-gradient-to-tr from-[#9C9AF3] to-[#FDD1E2] min-h-screen w-screen font-mali">
+    <div className="flex bg-gradient-to-tr from-[#009B96] to-[#9BF7AD] min-h-screen w-screen font-mali">
       <Sidebar />
       <div className="flex-1 p-8 flex flex-col">
         {/* Main Heading */}
@@ -160,20 +196,40 @@ const RecipeMaker: React.FC = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full p-3 rounded-lg border border-gray-300 pr-12 bg-[#D9D9D9]"
               />
-              <div 
-                className="cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2 border-l border-l-[#9B9B9B]"
+              <div
+                className="flex flex-row space-x-2 cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2 border-l border-l-[#9B9B9B]"
                 onClick={handleSearch}
               >
+                <h3 className='text-[#8C8C8C]'>Search</h3>
                 <img src={Search} alt="Search Icon" className='w-6 object-contain' />
               </div>
             </div>
+
+          <input
+            type="text"
+            placeholder="Enter Recipe UUID to Import"
+            value={recipeUUID}
+            onChange={(e) => setRecipeUUID(e.target.value)}
+            className=" p-3 rounded-lg border border-gray-300"
+          />
+          <button
+            className="bg-blue-500 text-white px-8 py-3 rounded-lg"
+            onClick={handleImportRecipe}
+          >
+            Import Recipe
+          </button>
           </div>
         </div>
+
+        {/* Import Recipe Section */}
 
         {/* Recipe Section */}
         {recipe && (
           <div className="w-full bg-white rounded-lg shadow-lg p-6 mb-8 flex flex-col">
-            <h2 className="text-2xl font-bold mb-4">{recipe.title}</h2>
+            <div className='w-full flex flex-row justify-between'>
+              <h2 className="text-2xl font-bold mb-4">{recipe.title}</h2>
+              <h2 className='text-right'>{recipe.recipeId}</h2> {/* Displaying Recipe ID */}
+            </div>
             <div className="grid grid-cols-2 gap-8">
               {/* Ingredients */}
               <div className='flex flex-col'>

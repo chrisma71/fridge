@@ -70,9 +70,10 @@ const Fridge: React.FC = () => {
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-semibold">Fridge</h1>
             <div className="flex space-x-4">
-              <img src={UploadIcon} alt="Upload Icon" className="w-8 h-8 cursor-pointer" onClick={openUploadModal} />
-              <img src={CameraIcon} alt="Camera Icon" className="w-8 h-8 cursor-pointer" onClick={openCameraModal} />
-              <img src={AddIcon} alt="Add Icon" className="w-8 h-8 cursor-pointer" onClick={openTextModal} />
+              <img src={UploadIcon} alt="Upload Icon" className="w-8 h-8 cursor-pointer object-contain" onClick={openUploadModal} />
+              <img src={CameraIcon} alt="Camera Icon" className="w-8 h-8 cursor-pointer object-contain" onClick={openCameraModal} />
+              <img src={AddIcon} alt="Add Icon" className="w-8 h-8 cursor-pointer object-contain" onClick={openTextModal} />
+
             </div>
           </div>
 
