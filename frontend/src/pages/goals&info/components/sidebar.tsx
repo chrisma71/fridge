@@ -42,7 +42,7 @@ const Sidebar: React.FC = () => {
                 location.pathname === '/a/goals' ? 'bg-gray-300' : 'bg-gray-100 hover:bg-gray-300'
               } border-2 border-transparent hover:border-transparent`}
             >
-              <img src={Target} alt="Goals & Stats" className="w-6 h-6" />
+              <img src={Target} alt="Goals & Stats" className="w-6 h-6 object-contain" />
               <span>Goals & Stats</span>
             </button>
             <button
@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
                 location.pathname === '/a/tracker' ? 'bg-gray-300' : 'bg-gray-100 hover:bg-gray-300'
               } border-2 border-transparent hover:border-transparent`}
             >
-              <img src={Nutrition} alt="Nutrition Tracker" className="w-6 h-6" />
+              <img src={Nutrition} alt="Nutrition Tracker" className="w-6 h-6 object-contain" />
               <span>Nutrition Tracker</span>
             </button>
             <button
@@ -60,7 +60,7 @@ const Sidebar: React.FC = () => {
                 location.pathname === '/a/meal-planner' ? 'bg-gray-300' : 'bg-gray-100 hover:bg-gray-300'
               } border-2 border-transparent hover:border-transparent`}
             >
-              <img src={Clipboard} alt="Meal Planner" className="w-6 h-6" />
+              <img src={Clipboard} alt="Meal Planner" className="w-6 h-6 object-contain" />
               <span>Meal Planner</span>
             </button>
           </div>
