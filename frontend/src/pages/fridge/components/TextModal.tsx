@@ -6,7 +6,7 @@ interface TextModalProps {
   userId: string;
 }
 
-const TextModal: React.FC<TextModalProps> = ({ onClose, onAddItem, userId }) => {
+const TextModal: React.FC<TextModalProps> = ({ onClose, onAddItem }) => {
   const [item, setItem] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 

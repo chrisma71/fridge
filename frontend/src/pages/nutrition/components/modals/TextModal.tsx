@@ -7,7 +7,7 @@ interface TextModalProps {
   onAddMeal: (meal: { name: string; calories: number; protein: number }) => Promise<void>; // Pass function to handle meal addition
 }
 
-const TextModal: React.FC<TextModalProps> = ({ onClose, userId, onAddMeal }) => {
+const TextModal: React.FC<TextModalProps> = ({ onClose, onAddMeal }) => {
   const [name, setName] = useState('');
   const [calories, setCalories] = useState<number | ''>('');
   const [protein, setProtein] = useState<number | ''>('');

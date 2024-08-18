@@ -4,7 +4,7 @@ import Search from './assets/Vector.png';
 import Import from './assets/Import.png'
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';  // Importing uuid
+import { v4 as uuidv4 } from 'uuid';
 
 interface Recipe {
   recipeId: string;

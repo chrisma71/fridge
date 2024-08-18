@@ -7,7 +7,7 @@ interface CameraModalProps {
   onAddItem: (item: string) => void;
 }
 
-const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem }) => {
+const CameraModal: React.FC<CameraModalProps> = ({ onClose, onAddItem }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
