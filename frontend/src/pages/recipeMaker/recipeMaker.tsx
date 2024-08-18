@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../goals&info/components/sidebar';
 import Search from './assets/Vector.png';
+import Import from './assets/Import.png'
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';  // Importing uuid
@@ -205,19 +206,23 @@ const RecipeMaker: React.FC = () => {
               </div>
             </div>
 
-          <input
-            type="text"
-            placeholder="Enter Recipe UUID to Import"
-            value={recipeUUID}
-            onChange={(e) => setRecipeUUID(e.target.value)}
-            className=" p-3 rounded-lg border border-gray-300"
-          />
-          <button
-            className="bg-blue-500 text-white px-8 py-3 rounded-lg"
-            onClick={handleImportRecipe}
-          >
-            Import Recipe
-          </button>
+            <div className="flex flex-1 items-center relative border-2">
+              <input
+                type="text"
+                placeholder="Enter Recipe UUID to Import"
+                value={recipeUUID}
+                onChange={(e) => setRecipeUUID(e.target.value)}
+                className="w-full p-3 rounded-lg border border-gray-300 pr-12 bg-[#D9D9D9]"
+              />
+              <div
+                className="flex flex-row space-x-2 cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2 border-l border-l-[#9B9B9B]"
+                onClick={handleImportRecipe}
+              >
+                <h3 className='text-[#8C8C8C]'>Import</h3>
+                <img src={Import} alt="Search Icon" className='w-6 object-contain' />
+
+              </div>
+            </div>
           </div>
         </div>
 
