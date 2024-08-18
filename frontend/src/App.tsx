@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './pages/landing/Landing';
 import Goals from './pages/goals&info/goals';
 import NutritionTracker from './pages/nutrition/NutritionTracker';
-import Fridge from './pages/fridge/Fridge'; // Import the Fridge component
+import Fridge from './pages/fridge/Fridge';
+import RecipeMaker from './pages/recipeMaker/recipeMaker'; // Import the RecipeMaker component
 import Cookies from 'js-cookie';
 
 const App: React.FC = () => {
@@ -11,7 +12,6 @@ const App: React.FC = () => {
     const fetchUserId = async () => {
       let userId = Cookies.get('userId');
       if (!userId) {
-        // Fetch userId from the server
         const response = await fetch('http://localhost:5000/api/user-id', {
           method: 'GET',
         });
@@ -19,12 +19,10 @@ const App: React.FC = () => {
         userId = data.userId;
         Cookies.set('userId', userId, { expires: 365 }); // Expires in 1 year
 
-        // Create the user document if it doesn't exist
         await fetch(`http://localhost:5000/api/users/${userId}/create`, {
           method: 'POST',
         });
       } else {
-        // Ensure the user document exists if the userId is already present
         await fetch(`http://localhost:5000/api/users/${userId}/create`, {
           method: 'POST',
         });
@@ -41,7 +39,8 @@ const App: React.FC = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/a/goals" element={<Goals />} />
           <Route path="/a/tracker" element={<NutritionTracker />} />
-          <Route path="/a/fridge" element={<Fridge />} /> {/* Add the Fridge route */}
+          <Route path="/a/fridge" element={<Fridge />} />
+          <Route path="/a/meal-planner" element={<RecipeMaker />} /> {/* Add the RecipeMaker route */}
         </Routes>
       </div>
     </Router>
