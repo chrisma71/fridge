@@ -21,7 +21,6 @@ const Goals: React.FC = () => {
   const handleSubmit = async () => {
     try {
       const userId = getCookie('userId');
-      console.log('User ID from cookie:', userId);
       if (userId) {
         await axios.post(`http://localhost:5000/api/users/${userId}/goals`, {
           name,
@@ -32,7 +31,7 @@ const Goals: React.FC = () => {
           proteinGoal,
           preferences,
         });
-        alert('Goals saved successfully!');
+        window.location.href = '/a/tracker';
       } else {
         alert('User ID not found in cookies.');
       }
@@ -41,7 +40,6 @@ const Goals: React.FC = () => {
     }
   };
 
-  // Function to get cookies
   const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -51,15 +49,10 @@ const Goals: React.FC = () => {
 
   return (
     <div className="flex bg-gradient-to-tr from-[#F5776F] to-[#C1E1C1] min-h-screen w-screen font-mali">
-      {/* Sidebar */}
       <Sidebar />
-
-      {/* Main Content Area */}
       <div className="flex-1 p-8 flex justify-center items-center">
         <div className="grid grid-cols-3 gap-4 w-full max-w-4xl">
-          {/* Left and Middle Columns */}
           <div className="col-span-2 grid grid-cols-2 gap-4">
-            {/* Name Input */}
             <div className="col-span-2 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">What’s your name?</label>
               <input
@@ -70,8 +63,6 @@ const Goals: React.FC = () => {
                 placeholder="Enter your name"
               />
             </div>
-
-            {/* Age Input */}
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Age</label>
               <input
@@ -84,8 +75,6 @@ const Goals: React.FC = () => {
                 inputMode="numeric"
               />
             </div>
-
-            {/* Weight Input */}
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Weight (lbs)</label>
               <input
@@ -98,8 +87,6 @@ const Goals: React.FC = () => {
                 inputMode="numeric"
               />
             </div>
-
-            {/* Goals Input */}
             <div className="col-span-2 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Goals</label>
               <input
@@ -110,8 +97,6 @@ const Goals: React.FC = () => {
                 placeholder="Enter your goals"
               />
             </div>
-
-            {/* Daily Calorie Goal Input */}
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Daily Calorie Goal</label>
               <input
@@ -124,8 +109,6 @@ const Goals: React.FC = () => {
                 inputMode="numeric"
               />
             </div>
-
-            {/* Daily Protein Goal Input */}
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Daily Protein Goal</label>
               <input
@@ -138,8 +121,6 @@ const Goals: React.FC = () => {
                 inputMode="numeric"
               />
             </div>
-
-            {/* Preferences Input */}
             <div className="col-span-2 bg-white p-4 rounded-lg shadow-md">
               <label className="block text-lg font-semibold mb-2">Preferences</label>
               <input
@@ -151,8 +132,6 @@ const Goals: React.FC = () => {
               />
             </div>
           </div>
-
-          {/* Save Button */}
           <div className="col-span-3 flex justify-center mt-4">
             <button
               onClick={handleSubmit}

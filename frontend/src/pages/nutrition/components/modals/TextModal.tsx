@@ -19,8 +19,6 @@ const TextModal: React.FC<TextModalProps> = ({ onClose, userId, onAddMeal }) => 
         
         // Use the onAddMeal function passed from the parent component
         await onAddMeal(meal);
-
-        alert("Meal added successfully!");
         onClose(); // Close the modal after adding the meal
       } catch (error) {
         console.error("Error adding meal:", error);

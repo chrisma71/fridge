@@ -41,8 +41,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ onClose, userId, onAddItem })
         const itemName = parsedResponse.name || 'Unknown Item';
 
         await onAddItem(itemName);
-
-        alert('Item added successfully!');
         onClose();
       } catch (error) {
         console.error('Error uploading file:', error);

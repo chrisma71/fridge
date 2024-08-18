@@ -45,8 +45,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ onClose, userId, onAddMeal })
         };
 
         onAddMeal(meal);
-
-        alert('Meal added successfully!');
         onClose(); // Close the modal after adding the meal
       } catch (error) {
         console.error('Error uploading file:', error);

@@ -12,10 +12,12 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
   const [isSubmitting, setIsSubmitting] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
 
   const startWebcam = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
@@ -34,6 +36,9 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
         canvas.height = videoRef.current.videoHeight;
         context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         setImageSrc(canvas.toDataURL('image/jpeg'));
+
+        // Stop the webcam
+        stopWebcam();
       }
     }
   };
@@ -54,7 +59,7 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
         });
   
         let description = response.data.description;
-        console.log(description)
+        console.log(description);
         description = description.replace(/```json|```/g, '').trim();
         const parsedResponse = JSON.parse(description);
   
@@ -62,7 +67,6 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
   
         await onAddItem(itemName);
   
-        alert('Item added successfully!');
         onClose(); 
       } catch (error) {
         console.error('Error uploading file:', error);
@@ -72,7 +76,6 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
       }
     }
   };
-  
 
   const dataURLtoFile = (dataUrl: string, filename: string) => {
     const arr = dataUrl.split(',');
@@ -88,22 +91,39 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, userId, onAddItem })
     return new File([u8arr], filename, { type: mime ? mime[1] : 'application/octet-stream' });
   };
 
+  const stopWebcam = () => {
+    if (streamRef.current) {
+      const tracks = streamRef.current.getTracks();
+      tracks.forEach(track => track.stop());
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg flex flex-col items-center">
         <h2 className="text-lg font-semibold mb-4">Camera Modal</h2>
-        <video ref={videoRef} width="640" height="480" autoPlay />
+        {imageSrc ? (
+          <img src={imageSrc} alt="Captured" className="w-full h-auto" />
+        ) : (
+          <video ref={videoRef} width="640" height="480" autoPlay />
+        )}
         <canvas ref={canvasRef} style={{ display: 'none' }} />
         <div className="mt-4">
-          <button onClick={startWebcam} className="px-4 py-2 bg-blue-500 text-white rounded mr-2">
-            Start Webcam
-          </button>
-          <button onClick={captureImage} className="px-4 py-2 bg-green-500 text-white rounded mr-2">
-            Capture Image
-          </button>
-          <button onClick={handleUpload} disabled={isSubmitting} className="px-4 py-2 bg-purple-500 text-white rounded">
-            {isSubmitting ? 'Uploading...' : 'Upload'}
-          </button>
+          {!imageSrc && (
+            <>
+              <button onClick={startWebcam} className="px-4 py-2 bg-blue-500 text-white rounded mr-2">
+                Start Webcam
+              </button>
+              <button onClick={captureImage} className="px-4 py-2 bg-green-500 text-white rounded mr-2">
+                Capture Image
+              </button>
+            </>
+          )}
+          {imageSrc && (
+            <button onClick={handleUpload} disabled={isSubmitting} className="px-4 py-2 bg-purple-500 text-white rounded">
+              {isSubmitting ? 'Uploading...' : 'Upload'}
+            </button>
+          )}
         </div>
         <button onClick={onClose} className="mt-4 px-4 py-2 bg-red-500 text-white rounded">
           Close

@@ -134,7 +134,6 @@ const RecipeMaker: React.FC = () => {
           calories: recipe.calories,
           protein: recipe.protein
         });
-        alert('Recipe added to Nutrition Tracker!');
       } catch (error) {
         console.error('Error adding recipe to tracker:', error);
         alert('Failed to add recipe to Nutrition Tracker.');
