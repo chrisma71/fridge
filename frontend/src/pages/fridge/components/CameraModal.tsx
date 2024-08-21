@@ -51,7 +51,7 @@ const CameraModal: React.FC<CameraModalProps> = ({ onClose, onAddItem }) => {
         formData.append('file', dataURLtoFile(imageSrc, 'webcam.jpg'));
         formData.append('prompt', 'Analyze the food in the image and return a JSON array with the names of the items. Each item should be a separate entry.');
 
-        const response = await axios.post('http://localhost:5000/api/upload', formData, {
+        const response = await axios.post('https://myfridge-0q77.onrender.com/api/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

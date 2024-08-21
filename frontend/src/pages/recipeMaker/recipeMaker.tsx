@@ -31,7 +31,7 @@ const RecipeMaker: React.FC = () => {
 
   const fetchUserData = async (userId: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      const response = await axios.get(`https://myfridge-0q77.onrender.com/api/users/${userId}`);
       const data = response.data;
 
       setUserPreferences({
@@ -77,7 +77,7 @@ const RecipeMaker: React.FC = () => {
         Ensure that ingredients are separated by semicolons and steps are separated by semicolons. Make sure there are multiple steps, and separate with semicolen.  Do not number the steps. Include estimated calories and protein. Finally, for the ingredients, make sure you show how much it is for each.
       `;
 
-      const response = await axios.post('http://localhost:5000/api/upload', { prompt });
+      const response = await axios.post('https://myfridge-0q77.onrender.com/api/upload', { prompt });
       const rawRecipeData = response.data.description;
 
       const jsonString = rawRecipeData
@@ -124,7 +124,7 @@ const RecipeMaker: React.FC = () => {
   // Function to store the generated recipe in the database
   const storeRecipe = async (recipe: Recipe) => {
     try {
-      await axios.post('http://localhost:5000/api/recipes', recipe);
+      await axios.post('https://myfridge-0q77.onrender.com/api/recipes', recipe);
       console.log('Recipe stored successfully:', recipe);
     } catch (error) {
       console.error('Error storing recipe:', error);
@@ -135,7 +135,7 @@ const RecipeMaker: React.FC = () => {
   // Function to import a recipe by its UUID
   const fetchRecipeById = async (recipeId: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/recipes/${recipeId}`);
+      const response = await axios.get(`https://myfridge-0q77.onrender.com/api/recipes/${recipeId}`);
       setRecipe(response.data);
     } catch (error) {
       console.error('Error fetching recipe:', error);
@@ -164,7 +164,7 @@ const RecipeMaker: React.FC = () => {
     if (userId && recipe) {
       try {
         // Optional: Add recipe metadata to the user's nutrition tracker
-        await axios.post(`http://localhost:5000/api/users/${userId}/meals`, {
+        await axios.post(`https://myfridge-0q77.onrender.com/api/users/${userId}/meals`, {
           name: recipe.title,
           calories: recipe.calories,
           protein: recipe.protein

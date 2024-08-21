@@ -22,7 +22,7 @@ const Goals: React.FC = () => {
     try {
       const userId = getCookie('userId');
       if (userId) {
-        await axios.post(`http://localhost:5000/api/users/${userId}/goals`, {
+        await axios.post(`https://myfridge-0q77.onrender.com/api/users/${userId}/goals`, {
           name,
           age,
           weight,

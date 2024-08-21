@@ -29,7 +29,7 @@ const NutritionTracker: React.FC = () => {
 
   const fetchUserData = async (userId: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      const response = await axios.get(`https://myfridge-0q77.onrender.com/api/users/${userId}`);
       const userData = response.data;
 
       // Set goals from user data
@@ -42,7 +42,7 @@ const NutritionTracker: React.FC = () => {
 
   const fetchMeals = async (userId: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}/meals`);
+      const response = await axios.get(`https://myfridge-0q77.onrender.com/api/users/${userId}/meals`);
       setMeals(response.data.meals || []);
     } catch (error) {
       console.error('Error fetching meals:', error);
@@ -52,7 +52,7 @@ const NutritionTracker: React.FC = () => {
   const handleAddMeal = async (meal: { name: string; calories: number; protein: number }) => {
     try {
       // Add the meal to the database
-      await axios.post(`http://localhost:5000/api/users/${userId}/meals`, meal);
+      await axios.post(`https://myfridge-0q77.onrender.com/api/users/${userId}/meals`, meal);
       
       // Re-fetch the meals to update the list
       await fetchMeals(userId as string);

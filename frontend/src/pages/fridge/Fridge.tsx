@@ -26,7 +26,7 @@ const Fridge: React.FC = () => {
 
   const fetchFridgeItems = async (userId: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}/fridge`);
+      const response = await axios.get(`https://myfridge-0q77.onrender.com/api/users/${userId}/fridge`);
       setFridgeItems(response.data.fridge || []);
     } catch (error) {
       console.error('Error fetching fridge items:', error);

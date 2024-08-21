@@ -27,7 +27,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ onClose, userId, onAddItem })
         formData.append('prompt', 'Analyze the food in the image and return a JSON array with the names of the items. Each item should be a separate entry.');
         formData.append('userId', userId);
 
-        const response = await axios.post('http://localhost:5000/api/upload', formData, {
+        const response = await axios.post('https://myfridge-0q77.onrender.com/api/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
