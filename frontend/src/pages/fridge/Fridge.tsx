@@ -44,7 +44,7 @@ const Fridge: React.FC = () => {
 
   const handleAddItem = async (item: string) => {
     try {
-      await axios.post(`http://localhost:5000/api/users/${userId}/fridge`, { item });
+      await axios.post(`https://myfridge-0q77.onrender.com/api/users/${userId}/fridge`, { item });
       await fetchFridgeItems(userId as string);
     } catch (error) {
       console.error('Error adding item to fridge:', error);
@@ -54,7 +54,7 @@ const Fridge: React.FC = () => {
 
   const handleRemoveItem = async (itemToRemove: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}/fridge/${itemToRemove}`);
+      await axios.delete(`https://myfridge-0q77.onrender.com/api/users/${userId}/fridge/${itemToRemove}`);
       setFridgeItems(fridgeItems.filter(item => item !== itemToRemove));
     } catch (error) {
       console.error('Error removing item from fridge:', error);
