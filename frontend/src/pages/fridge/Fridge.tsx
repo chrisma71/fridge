@@ -70,7 +70,7 @@ const Fridge: React.FC = () => {
       </Helmet>
       <Sidebar />
       <div className="flex-1 flex p-8">
-        <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-8 flex flex-col"> {/* Adjusted to flexbox for full height */}
+        <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-8 flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-semibold">Fridge</h1>
             <div className="flex space-x-4">
@@ -80,18 +80,20 @@ const Fridge: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-wrap gap-4 bg-gray-300 p-6 rounded-lg shadow-inner overflow-auto"> {/* Darkened the gray background and allowed overflow */}
-            {fridgeItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center bg-gray-100 px-3 py-1 rounded-full shadow-[0_3px_3px_rgba(0,0,0,0.3)] transition-transform transform hover:translate-y-[-2px] h-10" // Set fixed height
-              >
-                <span>{item}</span>
-                <div onClick={() => handleRemoveItem(item)} className="cursor-pointer ml-2 text-gray-600 hover:text-gray-900">
-                  ×
+          <div className="flex-1 flex flex-col gap-2 bg-gray-300 p-6 rounded-lg shadow-inner overflow-auto">
+            <div className="flex flex-wrap items-start gap-2"> {/* Modified flex settings */}
+              {fridgeItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center bg-gray-100 px-3 py-1 rounded-full shadow-[0_3px_3px_rgba(0,0,0,0.3)] transition-transform transform hover:translate-y-[-2px] h-10"
+                >
+                  <span>{item}</span>
+                  <div onClick={() => handleRemoveItem(item)} className="cursor-pointer ml-2 text-gray-600 hover:text-gray-900">
+                    ×
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
