@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async'; // Import Helmet
 import Sidebar from '../goals&info/components/sidebar';
 import CameraModal from './components/CameraModal';
 import UploadModal from './components/UploadModal';
@@ -64,6 +65,12 @@ const Fridge: React.FC = () => {
 
   return (
     <div className="flex bg-gradient-to-tr from-[#9C9AF3] to-[#FDD1E2] min-h-screen w-screen font-mali">
+
+      <Helmet>
+        <title>myFridge • Fridge</title> {/* Set the page title here */}
+      </Helmet>
+
+
       <Sidebar />
       <div className="flex-1 p-8">
         <div className="w-full h-full bg-white rounded-lg shadow-lg p-8">

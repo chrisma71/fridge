@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async'; // Import Helmet
 import Sidebar from './components/sidebar';
 import axios from 'axios';
 
@@ -49,6 +50,10 @@ const Goals: React.FC = () => {
 
   return (
     <div className="flex bg-gradient-to-tr from-[#F5776F] to-[#C1E1C1] min-h-screen w-screen font-mali">
+      <Helmet>
+        <title>myFridge • Goals & Stats</title> {/* Set the page title here */}
+      </Helmet>
+
       <Sidebar />
       <div className="flex-1 p-8 flex justify-center items-center">
         <div className="grid grid-cols-3 gap-4 w-full max-w-4xl">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async'; // Import Helmet
 import Sidebar from '../goals&info/components/sidebar';
 import SetGoal from './components/setGoal';
 import MealList from './components/MealList';
@@ -75,7 +76,13 @@ const NutritionTracker: React.FC = () => {
   const totalProtein = meals.reduce((acc, meal) => acc + meal.protein, 0);
 
   return (
+    
     <div className="flex bg-gradient-to-tr from-[#FE94FF] to-[#FFB794] min-h-screen w-screen font-mali">
+
+      <Helmet>
+        <title>myFridge • Tracker</title> {/* Set the page title here */}
+      </Helmet>
+
       <Sidebar />
 
       <div className="flex-1 p-8 flex flex-row space-x-16 items-start h-screen overflow-hidden">
