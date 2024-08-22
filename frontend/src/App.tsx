@@ -14,7 +14,7 @@ const App: React.FC = () => {
 
       if (!userId) {
         try {
-          const response = await fetch('http://localhost:5000/api/user-id', {
+          const response = await fetch('https://myfridge-0q77.onrender.com/api/user-id', {
             method: 'GET',
           });
 
@@ -28,7 +28,7 @@ const App: React.FC = () => {
           if (userId) {
             Cookies.set('userId', userId, { expires: 365 }); // Expires in 1 year
 
-            await fetch(`http://localhost:5000/api/users/${userId}/create`, {
+            await fetch(`https://myfridge-0q77.onrender.com/api/users/${userId}/create`, {
               method: 'POST',
             });
           }
@@ -37,7 +37,7 @@ const App: React.FC = () => {
         }
       } else {
         try {
-          await fetch(`http://localhost:5000/api/users/${userId}/create`, {
+          await fetch(`https://myfridge-0q77.onrender.com/api/users/${userId}/create`, {
             method: 'POST',
           });
         } catch (error) {
