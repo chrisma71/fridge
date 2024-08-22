@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async'; // Import Helmet
+import { Helmet } from 'react-helmet-async';
 import Sidebar from '../goals&info/components/sidebar';
 import SetGoal from './components/setGoal';
 import MealList from './components/MealList';
@@ -75,10 +75,14 @@ const NutritionTracker: React.FC = () => {
   const totalCalories = meals.reduce((acc, meal) => acc + meal.calories, 0);
   const totalProtein = meals.reduce((acc, meal) => acc + meal.protein, 0);
 
-  return (
-    
-    <div className="flex bg-gradient-to-tr from-[#FE94FF] to-[#FFB794] min-h-screen w-screen font-mali">
+  // Function to handle updating goals
+  const handleGoalUpdate = (newCalorieGoal: number, newProteinGoal: number) => {
+    setCalorieGoal(newCalorieGoal);
+    setProteinGoal(newProteinGoal);
+  };
 
+  return (
+    <div className="flex bg-gradient-to-tr from-[#FE94FF] to-[#FFB794] min-h-screen w-screen font-mali">
       <Helmet>
         <title>myFridge • Tracker</title> {/* Set the page title here */}
       </Helmet>
@@ -94,7 +98,7 @@ const NutritionTracker: React.FC = () => {
         />
 
         <div className="flex flex-col space-y-8 h-full">
-          <SetGoal />
+          <SetGoal onGoalUpdate={handleGoalUpdate} />
           <ProgressBar
             calorieGoal={calorieGoal}
             calorieIntake={totalCalories}

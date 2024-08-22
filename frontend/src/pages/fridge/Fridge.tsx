@@ -65,30 +65,26 @@ const Fridge: React.FC = () => {
 
   return (
     <div className="flex bg-gradient-to-tr from-[#9C9AF3] to-[#FDD1E2] min-h-screen w-screen font-mali">
-
       <Helmet>
         <title>myFridge • Fridge</title> {/* Set the page title here */}
       </Helmet>
-
-
       <Sidebar />
-      <div className="flex-1 p-8">
-        <div className="w-full h-full bg-white rounded-lg shadow-lg p-8">
+      <div className="flex-1 flex p-8">
+        <div className="w-full h-full bg-gray-100 rounded-lg shadow-lg p-8 flex flex-col"> {/* Adjusted to flexbox for full height */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-semibold">Fridge</h1>
             <div className="flex space-x-4">
               <img src={UploadIcon} alt="Upload Icon" className="w-8 h-8 cursor-pointer object-contain" onClick={openUploadModal} />
               <img src={CameraIcon} alt="Camera Icon" className="w-8 h-8 cursor-pointer object-contain" onClick={openCameraModal} />
               <img src={AddIcon} alt="Add Icon" className="w-8 h-8 cursor-pointer object-contain" onClick={openTextModal} />
-
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex-1 flex flex-wrap gap-4 bg-gray-300 p-6 rounded-lg shadow-inner overflow-auto"> {/* Darkened the gray background and allowed overflow */}
             {fridgeItems.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center bg-gray-300 px-3 py-1 rounded-full shadow-[0_3px_3px_rgba(0,0,0,0.3)] transition-transform transform hover:translate-y-[-2px]"
+                className="flex items-center bg-gray-100 px-3 py-1 rounded-full shadow-[0_3px_3px_rgba(0,0,0,0.3)] transition-transform transform hover:translate-y-[-2px] h-10" // Set fixed height
               >
                 <span>{item}</span>
                 <div onClick={() => handleRemoveItem(item)} className="cursor-pointer ml-2 text-gray-600 hover:text-gray-900">

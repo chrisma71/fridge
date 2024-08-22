@@ -30,7 +30,7 @@ const MealList: React.FC<MealListProps> = ({ meals, onOpenCamera, onOpenUpload, 
 
       <div className="overflow-y-auto flex-grow">
         {meals.map((meal, index) => (
-          <div key={index} className="bg-gray-300 p-4 rounded-lg shadow-md mb-4">
+          <div key={index} className="bg-gray-300 p-4 rounded-lg shadow-[0_3px_3px_rgba(0,0,0,0.3)] mb-4 ">
             <h3 className="text-xl font-semibold">{meal.name}</h3>
             <p className="text-sm mt-2">Calories: {meal.calories} <span className='font-sans'>•</span> Protein: {meal.protein}g</p>
           </div>
