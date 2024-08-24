@@ -63,6 +63,31 @@ router.delete('/users/:userId/meals/clear', async (req, res) => {
   }
 });
 
+router.delete('/users/:userId/meals/:mealIndex', async (req, res) => {
+  try {
+    const { userId, mealIndex } = req.params;
+    const user = await User.findOne({ userID: userId });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    if (mealIndex < 0 || mealIndex >= user.meals.length) {
+      return res.status(400).json({ error: 'Invalid meal index' });
+    }
+
+    // Remove the meal from the array
+    user.meals.splice(mealIndex, 1);
+
+    // Save the updated user document
+    await user.save();
+
+    res.status(200).json({ message: 'Meal deleted successfully', meals: user.meals });
+  } catch (error) {
+    console.error('Error deleting meal:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 router.post('/users/:userId/create', async (req, res) => {
     try {

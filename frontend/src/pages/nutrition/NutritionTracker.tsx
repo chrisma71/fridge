@@ -87,7 +87,24 @@ const NutritionTracker: React.FC = () => {
         console.error('Error clearing meals:', error);
         alert('Failed to clear meals.');
     }
-};
+  };
+
+  const handleDeleteMeal = async (index: number) => {
+    if (!userId) return;
+
+    try {
+      const response = await axios.delete(`https://myfridge-0q77.onrender.com/api/users/${userId}/meals/${index}`);
+      if (response.status === 200) {
+        setMeals(response.data.meals); // Update meals in the frontend
+      } else {
+        console.error('Failed to delete meal:', response.statusText);
+        alert('Failed to delete meal.');
+      }
+    } catch (error) {
+      console.error('Error deleting meal:', error);
+      alert('Failed to delete meal.');
+    }
+  };
 
   const openCameraModal = () => setCameraModalOpen(true);
   const closeCameraModal = () => setCameraModalOpen(false);
@@ -122,6 +139,7 @@ const NutritionTracker: React.FC = () => {
           onOpenUpload={openUploadModal} 
           onOpenText={openTextModal} 
           onClearMeals={handleClearMeals} // Pass the clear meals handler to MealList
+          onDeleteMeal={handleDeleteMeal} // Pass the delete meal handler to MealList
         />
 
         <div className="flex flex-col space-y-8 h-full">
