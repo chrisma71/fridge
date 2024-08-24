@@ -39,6 +39,31 @@ router.post('/users/:userId/meals', async (req, res) => {
     }
 });
 
+router.delete('/users/:userId/meals/clear', async (req, res) => {
+  try {
+      console.log(`Received request to clear meals for userID: ${req.params.userId}`);
+      
+      const user = await User.findOne({ userID: req.params.userId });
+      if (!user) {
+          console.log('User not found with userID:', req.params.userId);
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Clear the meals array
+      user.meals = [];
+
+      // Save the updated user document
+      await user.save();
+
+      console.log('Meals cleared successfully for userID:', req.params.userId);
+      res.status(200).json({ message: 'Meals cleared successfully', meals: user.meals });
+  } catch (error) {
+      console.error('Error clearing meals:', error);
+      res.status(500).json({ error: error.message });
+  }
+});
+
+
 router.post('/users/:userId/create', async (req, res) => {
     try {
         let user = await User.findOne({ userID: req.params.userId });

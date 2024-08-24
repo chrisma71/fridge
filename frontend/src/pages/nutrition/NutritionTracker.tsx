@@ -63,6 +63,32 @@ const NutritionTracker: React.FC = () => {
     }
   };
 
+  const handleClearMeals = async () => {
+    if (!userId) {
+        console.error('No userId found in cookies.');
+        return;
+    }
+
+    console.log(`Attempting to clear meals for userID: ${userId}`);
+
+    try {
+        const response = await axios.delete(`https://myfridge-0q77.onrender.com/api/users/${userId}/meals/clear`);
+        
+        console.log('Clear meals response:', response);
+
+        if (response.status === 200) {
+            console.log('Meals cleared successfully.');
+            setMeals([]); // Clear the meals array in the frontend
+        } else {
+            console.error('Failed to clear meals:', response.statusText);
+            alert('Failed to clear meals.');
+        }
+    } catch (error) {
+        console.error('Error clearing meals:', error);
+        alert('Failed to clear meals.');
+    }
+};
+
   const openCameraModal = () => setCameraModalOpen(true);
   const closeCameraModal = () => setCameraModalOpen(false);
 
@@ -95,6 +121,7 @@ const NutritionTracker: React.FC = () => {
           onOpenCamera={openCameraModal} 
           onOpenUpload={openUploadModal} 
           onOpenText={openTextModal} 
+          onClearMeals={handleClearMeals} // Pass the clear meals handler to MealList
         />
 
         <div className="flex flex-col space-y-8 h-full">
