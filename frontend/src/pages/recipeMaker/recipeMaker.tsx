@@ -22,6 +22,7 @@ const RecipeMaker: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [recipeUUID, setRecipeUUID] = useState<string>('');
+  const [copySuccess, setCopySuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const userId = Cookies.get('userId');
@@ -181,6 +182,18 @@ const RecipeMaker: React.FC = () => {
     }
   };
 
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopySuccess("Copied!");
+      setTimeout(() => setCopySuccess(null), 2000); // Clear the success message after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+      setCopySuccess("Failed to copy!");
+      setTimeout(() => setCopySuccess(null), 2000); // Clear the error message after 2 seconds
+    }
+  };
+
   return (
     <div className="flex bg-gradient-to-tr from-[#009B96] to-[#9BF7AD] min-h-screen w-screen font-mali">
 
@@ -232,14 +245,18 @@ const RecipeMaker: React.FC = () => {
           </div>
         </div>
 
-        {/* Import Recipe Section */}
-
         {/* Recipe Section */}
         {recipe && (
           <div className="w-full bg-white rounded-lg shadow-lg p-6 mb-8 flex flex-col">
             <div className='w-full flex flex-row justify-between'>
               <h2 className="text-2xl font-bold mb-4">{recipe.title}</h2>
-              <h2 className='text-right'>{recipe.recipeId}</h2> {/* Displaying Recipe ID */}
+              <h2
+                className='text-right cursor-pointer text-black flex items-center'
+                onClick={() => copyToClipboard(recipe.recipeId)}
+              >
+                {copySuccess && <span className="mr-2 text-green-600">{copySuccess}</span>}
+                {recipe.recipeId}
+              </h2> {/* Displaying Recipe ID with Copy to Clipboard */}
             </div>
             <div className="grid grid-cols-2 gap-8">
               {/* Ingredients */}

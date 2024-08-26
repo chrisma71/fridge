@@ -15,7 +15,7 @@ const TextModal: React.FC<TextModalProps> = ({ onClose, onAddItem }) => {
       try {
         setIsSubmitting(true);
         await onAddItem(item.trim()); 
-        alert('Item added successfully!');
+        console.log('Item added successfully!');
         onClose(); 
       } catch (error) {
         console.error('Error adding item:', error);

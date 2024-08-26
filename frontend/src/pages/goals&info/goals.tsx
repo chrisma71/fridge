@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async'; // Import Helmet
+import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Sidebar from './components/sidebar';
 import axios from 'axios';
 
@@ -11,6 +11,41 @@ const Goals: React.FC = () => {
   const [calorieGoal, setCalorieGoal] = useState<number | ''>('');
   const [proteinGoal, setProteinGoal] = useState<number | ''>('');
   const [preferences, setPreferences] = useState('');
+
+  const [namePlaceholder, setNamePlaceholder] = useState('');
+  const [agePlaceholder, setAgePlaceholder] = useState<number | ''>('');
+  const [weightPlaceholder, setWeightPlaceholder] = useState<number | ''>('');
+  const [goalsPlaceholder, setGoalsPlaceholder] = useState('');
+  const [calorieGoalPlaceholder, setCalorieGoalPlaceholder] = useState<number | ''>('');
+  const [proteinGoalPlaceholder, setProteinGoalPlaceholder] = useState<number | ''>('');
+  const [preferencesPlaceholder, setPreferencesPlaceholder] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = getCookie('userId');
+        if (userId) {
+          const response = await axios.get(`https://myfridge-0q77.onrender.com/api/users/${userId}`);
+          const userData = response.data;
+
+          // Set the placeholders with the current user data
+          setNamePlaceholder(userData.name || '');
+          setAgePlaceholder(userData.age || '');
+          setWeightPlaceholder(userData.weight || '');
+          setGoalsPlaceholder(userData.goals || '');
+          setCalorieGoalPlaceholder(userData.calorieGoal || '');
+          setProteinGoalPlaceholder(userData.proteinGoal || '');
+          setPreferencesPlaceholder(userData.preferences || '');
+        } else {
+          console.error('User ID not found in cookies.');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleChange = (setter: React.Dispatch<React.SetStateAction<number | ''>>, e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -24,20 +59,22 @@ const Goals: React.FC = () => {
       const userId = getCookie('userId');
       if (userId) {
         await axios.post(`https://myfridge-0q77.onrender.com/api/users/${userId}/goals`, {
-          name,
-          age,
-          weight,
-          goals,
-          calorieGoal,
-          proteinGoal,
-          preferences,
+          name: name || namePlaceholder,
+          age: age || agePlaceholder,
+          weight: weight || weightPlaceholder,
+          goals: goals || goalsPlaceholder,
+          calorieGoal: calorieGoal || calorieGoalPlaceholder,
+          proteinGoal: proteinGoal || proteinGoalPlaceholder,
+          preferences: preferences || preferencesPlaceholder,
         });
+        alert('Goals updated successfully!');
         window.location.href = '/a/tracker';
       } else {
         alert('User ID not found in cookies.');
       }
     } catch (error) {
       console.error('Error saving goals:', error);
+      alert('Failed to update goals.');
     }
   };
 
@@ -51,7 +88,7 @@ const Goals: React.FC = () => {
   return (
     <div className="flex bg-gradient-to-tr from-[#F5776F] to-[#C1E1C1] min-h-screen w-screen font-mali">
       <Helmet>
-        <title>myFridge • Goals & Stats</title> {/* Set the page title here */}
+        <title>myFridge • Goals & Stats</title>
       </Helmet>
 
       <Sidebar />
@@ -65,7 +102,7 @@ const Goals: React.FC = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] focus:outline-none focus:border-blue-400"
-                placeholder="Enter your name"
+                placeholder={namePlaceholder || "Enter your name"}
               />
             </div>
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
@@ -75,7 +112,7 @@ const Goals: React.FC = () => {
                 value={age}
                 onChange={(e) => handleChange(setAge, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
-                placeholder="Enter your age"
+                placeholder={agePlaceholder ? agePlaceholder.toString() : "Enter your age"}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -87,7 +124,7 @@ const Goals: React.FC = () => {
                 value={weight}
                 onChange={(e) => handleChange(setWeight, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
-                placeholder="Enter your weight"
+                placeholder={weightPlaceholder ? weightPlaceholder.toString() : "Enter your weight"}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -99,7 +136,7 @@ const Goals: React.FC = () => {
                 value={goals}
                 onChange={(e) => setGoals(e.target.value)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
-                placeholder="Enter your goals"
+                placeholder={goalsPlaceholder || "Enter your goals"}
               />
             </div>
             <div className="col-span-1 bg-white p-4 rounded-lg shadow-md">
@@ -109,7 +146,7 @@ const Goals: React.FC = () => {
                 value={calorieGoal}
                 onChange={(e) => handleChange(setCalorieGoal, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
-                placeholder="Enter your daily calorie goal"
+                placeholder={calorieGoalPlaceholder ? calorieGoalPlaceholder.toString() : "Enter your daily calorie goal"}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -121,7 +158,7 @@ const Goals: React.FC = () => {
                 value={proteinGoal}
                 onChange={(e) => handleChange(setProteinGoal, e)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
-                placeholder="Enter your daily protein goal"
+                placeholder={proteinGoalPlaceholder ? proteinGoalPlaceholder.toString() : "Enter your daily protein goal"}
                 pattern="[0-9]*"
                 inputMode="numeric"
               />
@@ -133,7 +170,7 @@ const Goals: React.FC = () => {
                 value={preferences}
                 onChange={(e) => setPreferences(e.target.value)}
                 className="w-full p-4 rounded-lg bg-[#D9D9D9] border-2 focus:outline-none focus:border-blue-400"
-                placeholder="Enter your dietary preferences"
+                placeholder={preferencesPlaceholder || "Enter your dietary preferences"}
               />
             </div>
           </div>

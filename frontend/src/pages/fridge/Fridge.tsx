@@ -81,19 +81,23 @@ const Fridge: React.FC = () => {
           </div>
 
           <div className="flex-1 flex flex-col gap-2 bg-gray-300 p-6 rounded-lg shadow-inner overflow-auto">
-            <div className="flex flex-wrap items-start gap-2"> {/* Modified flex settings */}
-              {fridgeItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center bg-gray-100 px-3 py-1 rounded-full shadow-[0_3px_3px_rgba(0,0,0,0.3)] transition-transform transform hover:translate-y-[-2px] h-10"
-                >
-                  <span>{item}</span>
-                  <div onClick={() => handleRemoveItem(item)} className="cursor-pointer ml-2 text-gray-600 hover:text-gray-900">
-                    ×
+            {fridgeItems.length === 0 ? (
+              <p className="text-gray-500 text-center mt-4">Your fridge is empty. Start by adding an item.</p>
+            ) : (
+              <div className="flex flex-wrap items-start gap-2"> {/* Modified flex settings */}
+                {fridgeItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center bg-gray-100 px-3 py-1 rounded-full shadow-[0_3px_3px_rgba(0,0,0,0.3)] transition-transform transform hover:translate-y-[-2px] h-10"
+                  >
+                    <span>{item}</span>
+                    <div onClick={() => handleRemoveItem(item)} className="cursor-pointer ml-2 text-gray-600 hover:text-gray-900">
+                      ×
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
